@@ -8,58 +8,60 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Dark VK-inspired palette as default */
-    --background: 222 24% 7%;
-    --foreground: 210 30% 96%;
+    /* Light, modern fintech-inspired palette */
+    --background: 40 20% 96%;
+    --foreground: 220 15% 10%;
 
-    --card: 222 22% 10%;
-    --card-foreground: 210 30% 96%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 10%;
 
-    --popover: 222 24% 9%;
-    --popover-foreground: 210 30% 96%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 10%;
 
-    --primary: 252 87% 67%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 280 90% 70%;
+    --primary: 220 15% 10%;
+    --primary-foreground: 40 20% 96%;
+    --primary-glow: 220 15% 22%;
 
-    --secondary: 222 18% 14%;
-    --secondary-foreground: 210 30% 96%;
+    --secondary: 40 18% 92%;
+    --secondary-foreground: 220 15% 14%;
 
-    --muted: 222 18% 14%;
-    --muted-foreground: 220 10% 65%;
+    --muted: 40 18% 92%;
+    --muted-foreground: 220 10% 42%;
 
-    --accent: 198 95% 60%;
-    --accent-foreground: 222 30% 8%;
+    --accent: 142 70% 49%;
+    --accent-foreground: 220 15% 8%;
+    --accent-soft: 142 70% 92%;
 
-    --destructive: 0 78% 60%;
-    --destructive-foreground: 210 30% 96%;
+    --destructive: 0 78% 56%;
+    --destructive-foreground: 0 0% 100%;
 
-    --success: 145 65% 50%;
-    --warning: 38 95% 60%;
+    --success: 142 70% 42%;
+    --warning: 38 95% 55%;
 
-    --border: 222 16% 18%;
-    --input: 222 18% 14%;
-    --ring: 252 87% 67%;
+    --border: 40 12% 88%;
+    --input: 40 14% 92%;
+    --ring: 220 15% 10%;
 
-    --radius: 1rem;
+    --radius: 1.25rem;
 
-    --sidebar-background: 222 26% 8%;
-    --sidebar-foreground: 220 14% 75%;
-    --sidebar-primary: 252 87% 67%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 20% 13%;
-    --sidebar-accent-foreground: 210 30% 96%;
-    --sidebar-border: 222 16% 16%;
-    --sidebar-ring: 252 87% 67%;
+    --sidebar-background: 40 20% 96%;
+    --sidebar-foreground: 220 12% 30%;
+    --sidebar-primary: 220 15% 10%;
+    --sidebar-primary-foreground: 40 20% 96%;
+    --sidebar-accent: 0 0% 100%;
+    --sidebar-accent-foreground: 220 15% 10%;
+    --sidebar-border: 40 12% 88%;
+    --sidebar-ring: 220 15% 10%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(252 87% 67%), hsl(280 90% 70%));
-    --gradient-accent: linear-gradient(135deg, hsl(198 95% 60%), hsl(252 87% 67%));
-    --gradient-gold: linear-gradient(135deg, hsl(38 95% 60%), hsl(20 90% 60%));
-    --gradient-surface: linear-gradient(180deg, hsl(222 22% 11%), hsl(222 22% 9%));
+    --gradient-primary: linear-gradient(135deg, hsl(220 15% 10%), hsl(220 15% 22%));
+    --gradient-accent: linear-gradient(135deg, hsl(142 70% 55%), hsl(160 70% 50%));
+    --gradient-gold: linear-gradient(135deg, hsl(45 95% 60%), hsl(28 95% 58%));
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%), hsl(40 18% 96%));
+    --gradient-hero: radial-gradient(120% 80% at 0% 0%, hsl(142 70% 92%) 0%, transparent 60%), radial-gradient(120% 80% at 100% 100%, hsl(40 30% 92%) 0%, transparent 60%);
 
-    --shadow-glow: 0 0 40px -10px hsl(252 87% 67% / 0.5);
-    --shadow-card: 0 8px 32px -12px hsl(222 50% 2% / 0.6);
-    --shadow-elevated: 0 20px 60px -20px hsl(222 50% 2% / 0.8);
+    --shadow-glow: 0 0 0 1px hsl(220 15% 10% / 0.04), 0 8px 24px -12px hsl(142 70% 30% / 0.18);
+    --shadow-card: 0 1px 0 hsl(220 15% 10% / 0.02), 0 8px 24px -16px hsl(220 15% 10% / 0.08);
+    --shadow-elevated: 0 1px 0 hsl(220 15% 10% / 0.03), 0 24px 60px -28px hsl(220 15% 10% / 0.18);
 
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -84,8 +86,10 @@ All colors MUST be HSL.
   .gradient-primary { background-image: var(--gradient-primary); }
   .gradient-accent { background-image: var(--gradient-accent); }
   .gradient-gold { background-image: var(--gradient-gold); }
+  .gradient-hero { background-image: var(--gradient-hero); }
+  .gradient-surface { background-image: var(--gradient-surface); }
   .gradient-text {
-    background-image: var(--gradient-primary);
+    background-image: var(--gradient-accent);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -95,6 +99,8 @@ All colors MUST be HSL.
   .shadow-elevated { box-shadow: var(--shadow-elevated); }
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { scrollbar-width: none; }
+  .bg-accent-soft { background-color: hsl(var(--accent-soft)); }
+  .text-accent-strong { color: hsl(var(--success)); }
 }
 
 @keyframes fade-up {

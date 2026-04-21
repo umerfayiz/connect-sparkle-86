@@ -50,51 +50,60 @@ export function AppSidebar() {
   const renderItems = (items: typeof main) =>
     items.map((item) => (
       <SidebarMenuItem key={item.title}>
-        <SidebarMenuButton asChild tooltip={item.title} className="h-10">
+        <SidebarMenuButton asChild tooltip={item.title} className="h-11">
           <NavLink
             to={item.url}
             end={item.url === "/"}
-            className="flex items-center gap-3 rounded-xl px-3 text-sidebar-foreground hover:bg-sidebar-accent hover:text-foreground transition-colors"
-            activeClassName="!bg-sidebar-accent !text-foreground font-semibold"
+            className="flex items-center gap-3 rounded-full px-3 text-sidebar-foreground hover:bg-card hover:text-foreground transition-colors"
+            activeClassName="!bg-primary !text-primary-foreground font-semibold shadow-card"
           >
             <item.icon className="h-5 w-5 shrink-0" />
-            {!collapsed && <span className="truncate">{item.title}</span>}
+            {!collapsed && <span className="truncate text-sm">{item.title}</span>}
           </NavLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
     ));
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-      <SidebarHeader className="px-4 py-5">
-        <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-xl gradient-primary flex items-center justify-center font-bold text-primary-foreground shadow-glow">
+    <Sidebar collapsible="icon" className="border-r-0">
+      <SidebarHeader className="px-5 py-6">
+        <div className="flex items-center gap-2.5">
+          <div className="h-10 w-10 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center font-bold shadow-card">
             P
           </div>
           {!collapsed && (
-            <div className="font-display font-bold text-lg tracking-tight">Pulse</div>
+            <div className="font-display font-bold text-xl tracking-tight">Pulse</div>
           )}
         </div>
       </SidebarHeader>
-      <SidebarContent className="px-2">
+      <SidebarContent className="px-3">
         <SidebarGroup>
-          {!collapsed && <SidebarGroupLabel>Feed</SidebarGroupLabel>}
+          {!collapsed && <SidebarGroupLabel className="px-3 text-[11px] uppercase tracking-wider text-muted-foreground/70">Feed</SidebarGroupLabel>}
           <SidebarGroupContent>
             <SidebarMenu>{renderItems(main)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          {!collapsed && <SidebarGroupLabel>Content</SidebarGroupLabel>}
+          {!collapsed && <SidebarGroupLabel className="px-3 text-[11px] uppercase tracking-wider text-muted-foreground/70">Content</SidebarGroupLabel>}
           <SidebarGroupContent>
             <SidebarMenu>{renderItems(content)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          {!collapsed && <SidebarGroupLabel>Business</SidebarGroupLabel>}
+          {!collapsed && <SidebarGroupLabel className="px-3 text-[11px] uppercase tracking-wider text-muted-foreground/70">Business</SidebarGroupLabel>}
           <SidebarGroupContent>
             <SidebarMenu>{renderItems(business)}</SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {!collapsed && (
+          <div className="mt-6 mx-2 rounded-2xl bg-primary text-primary-foreground p-4 shadow-card">
+            <div className="text-xs uppercase tracking-wider text-primary-foreground/60 font-semibold">Pro Tip</div>
+            <div className="mt-1 text-sm font-semibold leading-snug">Boost your reach with verified creator collabs.</div>
+            <button className="mt-3 w-full rounded-full bg-accent text-accent-foreground text-xs font-bold py-2 hover:opacity-90 transition-opacity">
+              Explore Creators →
+            </button>
+          </div>
+        )}
       </SidebarContent>
     </Sidebar>
   );

@@ -34,10 +34,10 @@ const Profile = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="overflow-hidden border-border bg-card shadow-card">
+      <Card className="overflow-hidden border-border bg-card shadow-card rounded-3xl">
         <div className="relative h-44 md:h-56">
           <img src={cover} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
         </div>
         <div className="px-6 pb-6 -mt-14 relative">
           <div className="flex flex-col md:flex-row md:items-end gap-4">
@@ -70,14 +70,14 @@ const Profile = () => {
               <Button
                 onClick={() => setFollowing((v) => !v)}
                 variant={following ? "secondary" : "default"}
-                className={following ? "" : "gradient-primary border-0 hover:opacity-90"}
+                className={following ? "rounded-full" : "rounded-full bg-primary text-primary-foreground hover:opacity-90"}
               >
                 {following ? <><UserCheck className="h-4 w-4 mr-2" /> Following</> : <><UserPlus className="h-4 w-4 mr-2" /> Follow</>}
               </Button>
-              <Button variant="outline" onClick={() => navigate("/chat")}>
+              <Button variant="outline" onClick={() => navigate("/chat")} className="rounded-full">
                 <MessageCircle className="h-4 w-4 mr-2" /> Negotiate
               </Button>
-              <Button variant="ghost" size="icon"><Share2 className="h-4 w-4" /></Button>
+              <Button variant="ghost" size="icon" className="rounded-full"><Share2 className="h-4 w-4" /></Button>
             </div>
           </div>
 
@@ -86,8 +86,8 @@ const Profile = () => {
             {creator.socials.map((s) => {
               const Icon = iconFor(s.platform);
               return (
-                <div key={s.platform} className="flex items-center gap-3 rounded-xl bg-secondary px-3 py-2">
-                  <div className="h-9 w-9 rounded-lg gradient-primary flex items-center justify-center">
+                <div key={s.platform} className="flex items-center gap-3 rounded-2xl bg-secondary px-3 py-2.5">
+                  <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center">
                     <Icon className="h-4 w-4 text-primary-foreground" />
                   </div>
                   <div>
@@ -102,33 +102,37 @@ const Profile = () => {
       </Card>
 
       {/* Rates */}
-      <Card className="p-6 border-border bg-card shadow-card">
+      <Card className="p-6 border-border bg-card shadow-card rounded-3xl">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-xl font-bold">Rate Card</h2>
-            <p className="text-sm text-muted-foreground">Starting prices per deliverable</p>
+            <h2 className="text-xl font-bold">Packages</h2>
+            <p className="text-sm text-muted-foreground">Choose a package or negotiate a custom one</p>
           </div>
-          <Button onClick={() => navigate("/chat")} className="gradient-accent border-0 text-accent-foreground hover:opacity-90">
+          <Button onClick={() => navigate("/chat")} className="rounded-full bg-accent text-accent-foreground hover:opacity-90">
             <MessageCircle className="h-4 w-4 mr-2" /> Negotiate
           </Button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="space-y-2">
           {creator.rates.map((r, i) => (
-            <div key={i} className="rounded-xl border border-border p-4 bg-secondary/40 hover:border-primary/50 transition-colors">
-              <div className="text-xs text-muted-foreground">{r.platform}</div>
-              <div className="font-semibold mt-1">{r.type}</div>
-              <div className="mt-3 text-2xl font-bold gradient-text">${r.price.toLocaleString()}</div>
+            <div key={i} className="rounded-2xl border border-border p-4 hover:border-primary/40 transition-colors flex items-center gap-4">
+              <div className="h-10 w-10 rounded-xl bg-secondary flex items-center justify-center text-xs font-bold">{r.platform.slice(0,2).toUpperCase()}</div>
+              <div className="flex-1">
+                <div className="font-semibold">1 {r.type}</div>
+                <div className="text-xs text-muted-foreground">{r.platform} · stylized for your brand</div>
+              </div>
+              <div className="text-xl font-bold tabular-nums">${r.price.toLocaleString()}</div>
+              <button className="h-6 w-6 rounded-full border-2 border-border hover:border-primary transition-colors" />
             </div>
           ))}
         </div>
       </Card>
 
       {/* Portfolio */}
-      <Card className="p-6 border-border bg-card shadow-card">
+      <Card className="p-6 border-border bg-card shadow-card rounded-3xl">
         <h2 className="text-xl font-bold mb-4">Portfolio</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {portfolio.map((p, i) => (
-            <div key={i} className="group rounded-xl overflow-hidden border border-border bg-secondary/40">
+            <div key={i} className="group rounded-2xl overflow-hidden border border-border">
               <div className="relative aspect-video">
                 <img src={p.thumb} alt={p.brand} loading="lazy" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -145,14 +149,14 @@ const Profile = () => {
       </Card>
 
       {/* Reviews */}
-      <Card className="p-6 border-border bg-card shadow-card">
+      <Card className="p-6 border-border bg-card shadow-card rounded-3xl">
         <h2 className="text-xl font-bold mb-1">Brand Reviews</h2>
         <p className="text-sm text-muted-foreground mb-5">What brands say after working with {creator.name.split(" ")[0]}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {reviews.map((r, i) => (
-            <div key={i} className="rounded-xl border border-border p-5 bg-secondary/40">
+            <div key={i} className="rounded-2xl border border-border p-5">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg gradient-primary flex items-center justify-center font-bold text-primary-foreground">
+                <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center font-bold text-primary-foreground">
                   {r.logo}
                 </div>
                 <div>
@@ -171,9 +175,9 @@ const Profile = () => {
       </Card>
 
       {/* Content tabs: Videos / Images / Blogs */}
-      <Card className="p-6 border-border bg-card shadow-card">
+      <Card className="p-6 border-border bg-card shadow-card rounded-3xl">
         <Tabs defaultValue="videos">
-          <TabsList className="bg-secondary">
+          <TabsList className="bg-secondary rounded-full">
             <TabsTrigger value="videos">Videos</TabsTrigger>
             <TabsTrigger value="images">Images</TabsTrigger>
             <TabsTrigger value="blogs">Blogs</TabsTrigger>

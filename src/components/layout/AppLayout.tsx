@@ -11,7 +11,7 @@ const AppLayout = () => {
         <div className="flex-1 flex flex-col min-w-0">
           <TopBar />
           <main className="flex-1">
-            <div className="mx-auto w-[92%] md:w-[80%] lg:w-[70%] py-6">
+            <div className="mx-auto w-[94%] md:w-[82%] lg:w-[72%] py-8">
               <Outlet />
             </div>
           </main>

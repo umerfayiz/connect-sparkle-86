@@ -59,6 +59,7 @@ export default {
         },
         success: "hsl(var(--success))",
         warning: "hsl(var(--warning))",
+        "accent-soft": "hsl(var(--accent-soft))",
       },
       fontFamily: {
         sans: ['Poppins', 'system-ui', 'sans-serif'],

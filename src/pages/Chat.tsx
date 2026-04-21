@@ -69,7 +69,7 @@ const Chat = () => {
                 className={cn(
                   "max-w-[70%] px-4 py-2.5 rounded-2xl text-sm",
                   m.from === "me"
-                    ? "gradient-primary text-primary-foreground rounded-br-sm"
+                    ? "bg-primary text-primary-foreground rounded-br-sm"
                     : "bg-secondary text-foreground rounded-bl-sm"
                 )}
               >
@@ -82,7 +82,7 @@ const Chat = () => {
           <Button variant="ghost" size="icon"><Paperclip className="h-4 w-4" /></Button>
           <Input placeholder="Type a message…" className="bg-secondary border-transparent" />
           <Button variant="ghost" size="icon"><Smile className="h-4 w-4" /></Button>
-          <Button className="gradient-primary border-0 hover:opacity-90">
+          <Button className="bg-primary text-primary-foreground rounded-full hover:opacity-90">
             <Send className="h-4 w-4" />
           </Button>
         </div>

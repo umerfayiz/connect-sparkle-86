@@ -17,28 +17,28 @@ import { me } from "@/data/mock";
 export function TopBar() {
   const navigate = useNavigate();
   return (
-    <header className="sticky top-0 z-40 h-16 border-b border-border bg-background/80 backdrop-blur-xl">
-      <div className="h-full flex items-center gap-3 px-4">
+    <header className="sticky top-0 z-40 h-20 bg-background/85 backdrop-blur-xl">
+      <div className="h-full flex items-center gap-3 px-6">
         <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
         <div className="hidden md:flex relative max-w-md flex-1 ml-2">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search creators, brands, products…"
-            className="pl-9 bg-secondary border-transparent focus-visible:ring-primary/50"
+            className="pl-10 h-11 bg-card border-border rounded-full focus-visible:ring-primary/30"
           />
         </div>
         <div className="flex-1" />
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+        <Button variant="ghost" size="icon" className="rounded-full bg-card border border-border h-11 w-11 text-muted-foreground hover:text-foreground">
           <Bell className="h-5 w-5" />
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2 rounded-full pl-1 pr-3 py-1 hover:bg-secondary transition-colors">
-              <Avatar className="h-8 w-8 ring-2 ring-primary/40">
+            <button className="flex items-center gap-2 rounded-full pl-1 pr-4 py-1 bg-card border border-border hover:shadow-card transition-all">
+              <Avatar className="h-9 w-9">
                 <AvatarImage src={me.avatar} alt={me.name} />
                 <AvatarFallback>AC</AvatarFallback>
               </Avatar>
-              <span className="hidden sm:block text-sm font-medium">{me.name.split(" ")[0]}</span>
+              <span className="hidden sm:block text-sm font-semibold">{me.name.split(" ")[0]}</span>
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">

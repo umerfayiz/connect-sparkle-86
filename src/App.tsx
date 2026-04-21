@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import Chat from "./pages/Chat";
 import Influencers from "./pages/Influencers";
 import DigitalProducts from "./pages/DigitalProducts";
+import Discover from "./pages/Discover";
 import SimplePage from "./pages/SimplePage";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -27,7 +28,7 @@ const App = () => (
             <Route path="/chat" element={<Chat />} />
             <Route path="/influencers" element={<Influencers />} />
             <Route path="/products" element={<DigitalProducts />} />
-            <Route path="/discover" element={<SimplePage title="Discover" description="Trending creators and posts coming soon." />} />
+            <Route path="/discover" element={<Discover />} />
             <Route path="/videos" element={<SimplePage title="Videos" description="Browse trending videos." />} />
             <Route path="/photos" element={<SimplePage title="Photos" description="Curated photo feed." />} />
             <Route path="/saved" element={<SimplePage title="Saved" description="Your bookmarked posts." />} />

@@ -1,100 +1,241 @@
 import { PostCard } from "@/components/social/PostCard";
-import { CreatorCard } from "@/components/social/CreatorCard";
 import { creators, posts } from "@/data/mock";
-import { ArrowUpRight, Sparkles, TrendingUp, Users, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
-
-const stats = [
-  { label: "Reach this week", value: "128.4K", trend: "+12.3%", icon: TrendingUp },
-  { label: "New followers", value: "2,140", trend: "+8.1%", icon: Users },
-  { label: "Engagement", value: "9.2%", trend: "+1.4%", icon: Zap },
-];
+import { Sparkles, Mail, X, LogIn } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [hoveredProfile, setHoveredProfile] = useState<string | null>(null);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [hasShownPopup, setHasShownPopup] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrolledToBottom = scrollTop + windowHeight >= documentHeight - 200;
+
+      if (scrolledToBottom && !hasShownPopup) {
+        setShowLoginPopup(true);
+        setHasShownPopup(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasShownPopup]);
+
   return (
-    <div className="space-y-8">
-      {/* Hero */}
-      <section className="relative overflow-hidden rounded-3xl gradient-hero border border-border p-7 md:p-10">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div className="max-w-xl">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-card border border-border px-3 py-1 text-xs font-semibold">
-              <Sparkles className="h-3.5 w-3.5 text-accent" /> Welcome back, Alex
+    <div className="space-y-3">
+      {/* Stories Section - Full Width */}
+      <div className="bg-card border border-border p-3 overflow-hidden" style={{ borderRadius: '5px' }}>
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-1">
+          {/* Add Story */}
+          <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+            <div className="relative w-16 h-16">
+              <div
+                className="w-full h-full bg-muted flex items-center justify-center cursor-pointer hover:bg-muted/80 transition-colors"
+                style={{
+                  borderRadius: '35% 35% 35% 35% / 35% 35% 35% 35%',
+                  border: '3px dashed hsl(var(--border))'
+                }}
+              >
+                <span className="text-2xl text-muted-foreground">+</span>
+              </div>
             </div>
-            <h1 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight leading-[1.05]">
-              Your creator <span className="gradient-text">network</span>, in one feed.
-            </h1>
-            <p className="mt-3 text-muted-foreground">
-              Follow trending creators, hire influencers and grow your brand — all in one place.
-            </p>
+            <span className="text-[9px] text-muted-foreground">Add Story</span>
           </div>
-          <div className="flex gap-3">
-            <Link to="/discover" className="rounded-full bg-primary text-primary-foreground px-5 py-3 text-sm font-semibold hover:opacity-90 transition-opacity inline-flex items-center gap-1.5">
-              Discover <ArrowUpRight className="h-4 w-4" />
-            </Link>
-            <Link to="/influencers" className="rounded-full bg-card border border-border px-5 py-3 text-sm font-semibold hover:shadow-card transition-shadow">
-              Hire Talent
-            </Link>
-          </div>
-        </div>
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {stats.map((s) => (
-            <div key={s.label} className="rounded-2xl bg-card border border-border p-4 flex items-center gap-3">
-              <div className="h-11 w-11 rounded-xl bg-accent-soft flex items-center justify-center">
-                <s.icon className="h-5 w-5 text-accent-strong" />
+
+          {/* Stories */}
+          {creators.map((c, i) => (
+            <div key={c.id} className="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer group">
+              <div className="relative w-16 h-16">
+                <div
+                  className="w-full h-full p-[3px] transition-transform group-hover:scale-105"
+                  style={{
+                    borderRadius: '35% 35% 35% 35% / 35% 35% 35% 35%',
+                    background: i < 3
+                      ? 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)'
+                      : 'hsl(var(--border))'
+                  }}
+                >
+                  <div
+                    className="w-full h-full bg-background p-[2px]"
+                    style={{ borderRadius: '33% 33% 33% 33% / 33% 33% 33% 33%' }}
+                  >
+                    <img
+                      src={c.avatar}
+                      alt={c.name}
+                      className="w-full h-full object-cover"
+                      style={{ borderRadius: '30% 30% 30% 30% / 30% 30% 30% 30%' }}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="flex-1">
-                <div className="text-xs text-muted-foreground">{s.label}</div>
-                <div className="font-bold tabular-nums text-lg leading-tight">{s.value}</div>
-              </div>
-              <div className="text-xs font-semibold rounded-full bg-accent-soft text-accent-strong px-2 py-1">{s.trend}</div>
+              <span className="text-[9px] truncate w-14 text-center">{c.name.split(' ')[0]}</span>
             </div>
           ))}
         </div>
-      </section>
-
-      <header className="flex items-end justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Your Feed</h2>
-          <p className="text-muted-foreground text-sm mt-1">Latest from creators you follow</p>
-        </div>
-        <div className="flex gap-1 rounded-full bg-card border border-border p-1">
-          <button className="rounded-full px-4 py-1.5 text-xs font-semibold bg-primary text-primary-foreground">For You</button>
-          <button className="rounded-full px-4 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground">Following</button>
-          <button className="rounded-full px-4 py-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground">Trending</button>
-        </div>
-      </header>
-
-      <div className="space-y-5">
-        {posts.map((p) => (
-          <PostCard key={p.id} post={p} />
-        ))}
       </div>
 
-      <section className="mt-10 rounded-3xl bg-primary text-primary-foreground p-7 md:p-9 relative overflow-hidden">
-        <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-accent/30 blur-3xl" />
-        <div className="relative flex items-start justify-between gap-4 mb-7">
-          <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/10 text-primary-foreground px-3 py-1 text-xs font-semibold mb-3">
-              <Sparkles className="h-3.5 w-3.5" /> FEATURED
+      {/* Main Content Row */}
+      <div className="flex flex-col lg:flex-row" style={{ gap: '3%' }}>
+        {/* Main Feed */}
+        <div className="flex-1 min-w-0">
+          <div className="w-full">
+            <div className="bg-card border border-border overflow-hidden divide-y divide-border" style={{ borderRadius: '5px' }}>
+              {posts.map((p) => (
+                <PostCard key={p.id} post={p} />
+              ))}
+
+              {/* Hire Influencers Section */}
+              <div className="p-3 bg-muted/30">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="inline-flex items-center gap-1 bg-accent/10 px-1.5 py-0.5 text-[9px] font-semibold mb-1" style={{ borderRadius: '5px' }}>
+                      <Sparkles className="h-2.5 w-2.5 text-accent" /> FEATURED
+                    </div>
+                    <h3 className="text-xs font-bold tracking-tight leading-tight">
+                      Hire Top Influencers <span className="text-accent">for your brand.</span>
+                    </h3>
+                    <p className="text-muted-foreground text-[9px] mt-0.5">Hand-picked creators.</p>
+                  </div>
+                  <Link to="/influencers" className="shrink-0 bg-primary text-primary-foreground px-2 py-1 text-[9px] font-semibold hover:opacity-90" style={{ borderRadius: '5px' }}>
+                    View all
+                  </Link>
+                </div>
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                  {creators.slice(0, 3).map((c) => (
+                    <div key={c.id} className="flex items-center gap-2 bg-card border border-border p-1.5" style={{ borderRadius: '5px' }}>
+                      <Avatar className="h-6 w-6">
+                        <AvatarImage src={c.avatar} />
+                        <AvatarFallback>{c.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-[10px] font-medium truncate">{c.name}</div>
+                        <div className="text-[9px] text-muted-foreground">{c.followers}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight">
-              Hire Top Influencers <br className="hidden md:block" />
-              <span className="text-accent">for your brand.</span>
-            </h2>
-            <p className="text-primary-foreground/70 text-sm mt-2 max-w-xl">
-              Hand-picked creators with proven results. Browse profiles, see rates and start a conversation.
-            </p>
           </div>
-          <Link to="/influencers" className="hidden md:inline-flex shrink-0 rounded-full bg-accent text-accent-foreground px-5 py-2.5 text-sm font-bold hover:opacity-90">
-            See all →
-          </Link>
         </div>
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-5">
-          {creators.map((c) => (
-            <CreatorCard key={c.id} creator={c} />
-          ))}
+
+        {/* Right Sidebar - Suggested for you */}
+        <div className="w-full lg:w-60 flex-shrink-0">
+          <div className="lg:sticky lg:top-16">
+            <div className="bg-card border border-border p-2" style={{ borderRadius: '5px' }}>
+              <h3 className="text-[10px] font-semibold mb-2">Suggested for you</h3>
+              <div className="space-y-1.5">
+                {creators.slice(0, 5).map((c) => (
+                  <div
+                    key={c.id}
+                    className="relative"
+                    onMouseEnter={() => setHoveredProfile(c.id)}
+                    onMouseLeave={() => setHoveredProfile(null)}
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <Avatar className="h-5 w-5">
+                        <AvatarImage src={c.avatar} />
+                        <AvatarFallback>{c.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[9px] font-medium truncate">{c.name}</div>
+                        <div className="text-[8px] text-muted-foreground truncate">{c.username}</div>
+                      </div>
+                      <Button size="sm" className="h-5 px-1.5 text-[8px] bg-primary text-primary-foreground" style={{ borderRadius: '5px' }}>
+                        Follow
+                      </Button>
+                    </div>
+                    {/* Hover Profile Card */}
+                    {hoveredProfile === c.id && (
+                      <div className="absolute left-0 top-full mt-1 z-50 w-36 bg-card border border-border p-2 shadow-lg" style={{ borderRadius: '5px' }}>
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <Avatar className="h-7 w-7">
+                            <AvatarImage src={c.avatar} />
+                            <AvatarFallback>{c.name[0]}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="text-[9px] font-semibold">{c.name}</div>
+                            <div className="text-[8px] text-muted-foreground">{c.username}</div>
+                          </div>
+                        </div>
+                        <p className="text-[8px] text-muted-foreground line-clamp-2 mb-1">{c.bio}</p>
+                        <div className="text-[8px]">
+                          <span><b>{c.followers}</b> followers</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact Us */}
+            <div className="mt-2 bg-card border border-border p-2" style={{ borderRadius: '5px' }}>
+              <Link to="/contact" className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground text-[9px]">
+                <Mail className="h-3 w-3" /> Contact Us
+              </Link>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
+
+      {/* Login Popup */}
+      {showLoginPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="relative w-full max-w-xs mx-4 bg-card border border-border p-5" style={{ borderRadius: '5px' }}>
+            <button
+              onClick={() => setShowLoginPopup(false)}
+              className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
+            >
+              <X className="h-4 w-4" />
+            </button>
+            <div className="text-center">
+              <div className="inline-flex items-center gap-1.5 mb-3">
+                <Sparkles className="h-5 w-5 text-primary" />
+                <span className="text-lg font-bold">Pulse</span>
+              </div>
+              <h3 className="text-sm font-semibold mb-1">Join Pulse Today</h3>
+              <p className="text-[10px] text-muted-foreground mb-4">
+                Sign up to follow creators, like posts, and connect with your community.
+              </p>
+              <div className="space-y-2">
+                <Button
+                  onClick={() => {
+                    setShowLoginPopup(false);
+                    navigate("/signup");
+                  }}
+                  className="w-full h-8 text-xs"
+                  style={{ borderRadius: '5px' }}
+                >
+                  Sign Up
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowLoginPopup(false);
+                    navigate("/login");
+                  }}
+                  className="w-full h-8 text-xs gap-1.5"
+                  style={{ borderRadius: '5px' }}
+                >
+                  <LogIn className="h-3 w-3" /> Login
+                </Button>
+              </div>
+              <p className="text-[9px] text-muted-foreground mt-3">
+                By signing up, you agree to our Terms and Privacy Policy.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

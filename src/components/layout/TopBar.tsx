@@ -1,79 +1,103 @@
-import { Bell, Search, Sparkles, LogOut, Settings, User as UserIcon, Store, MessageCircle } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Bell, Search, Plus, Image, Smile, LogIn } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { me } from "@/data/mock";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export function TopBar() {
-  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [description, setDescription] = useState("");
+
   return (
-    <header className="sticky top-0 z-40 h-20 bg-background/85 backdrop-blur-xl">
-      <div className="h-full flex items-center gap-3 px-6">
-        <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-        <div className="hidden md:flex relative max-w-md flex-1 ml-2">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+    <header className="sticky top-0 z-40 h-12 bg-background border-b border-border">
+      <div className="h-full flex items-center gap-2 px-3">
+        {/* Create Post Button with Dialog */}
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogTrigger asChild>
+            <Button size="sm" className="h-7 px-3 text-[10px] gap-1.5 bg-primary text-primary-foreground" style={{ borderRadius: '5px' }}>
+              <Plus className="h-3 w-3" /> Create Post
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md p-0 gap-0" style={{ borderRadius: '8px' }}>
+            <DialogHeader className="p-4 pb-0">
+              <DialogTitle className="text-sm font-semibold">Create Post</DialogTitle>
+            </DialogHeader>
+            <div className="p-4 space-y-3">
+              {/* Image Upload Area */}
+              <div
+                className="border-2 border-dashed border-border bg-muted/30 flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-muted/50 transition-colors"
+                style={{ borderRadius: '5px' }}
+              >
+                <div className="h-12 w-12 bg-muted flex items-center justify-center mb-2" style={{ borderRadius: '50%' }}>
+                  <Image className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <span className="text-xs font-medium">Click to upload image</span>
+                <span className="text-[10px] text-muted-foreground mt-0.5">PNG, JPG up to 10MB</span>
+              </div>
+
+              {/* Description */}
+              <div className="space-y-1.5">
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="What's on your mind?"
+                  className="w-full min-h-[80px] text-xs p-2 border border-border bg-transparent resize-none focus:outline-none focus:ring-1 focus:ring-primary"
+                  style={{ borderRadius: '5px' }}
+                />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <button className="h-7 w-7 flex items-center justify-center hover:bg-muted text-muted-foreground hover:text-foreground" style={{ borderRadius: '5px' }}>
+                      <Image className="h-4 w-4" />
+                    </button>
+                    <button className="h-7 w-7 flex items-center justify-center hover:bg-muted text-muted-foreground hover:text-foreground" style={{ borderRadius: '5px' }}>
+                      <Smile className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <span className="text-[10px] text-muted-foreground">{description.length}/500</span>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <Button
+                className="w-full h-8 text-xs"
+                style={{ borderRadius: '5px' }}
+                onClick={() => setIsOpen(false)}
+              >
+                Post
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <div className="hidden md:flex relative max-w-xs flex-1">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
           <Input
-            placeholder="Search creators, brands, products…"
-            className="pl-10 h-11 bg-card border-border rounded-full focus-visible:ring-primary/30"
+            placeholder="Search..."
+            className="pl-8 h-7 text-xs bg-muted border border-border focus-visible:ring-0"
+            style={{ borderRadius: '8px' }}
           />
         </div>
         <div className="flex-1" />
-        <Button variant="ghost" size="icon" className="rounded-full bg-card border border-border h-11 w-11 text-muted-foreground hover:text-foreground">
-          <Bell className="h-5 w-5" />
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2 rounded-full pl-1 pr-4 py-1 bg-card border border-border hover:shadow-card transition-all">
-              <Avatar className="h-9 w-9">
-                <AvatarImage src={me.avatar} alt={me.name} />
-                <AvatarFallback>AC</AvatarFallback>
-              </Avatar>
-              <span className="hidden sm:block text-sm font-semibold">{me.name.split(" ")[0]}</span>
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>
-              <div className="flex flex-col">
-                <span className="font-semibold">{me.name}</span>
-                <span className="text-xs text-muted-foreground">{me.username}</span>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate("/profile/aria")}>
-              <UserIcon className="h-4 w-4 mr-2" /> My Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate("/chat")}>
-              <MessageCircle className="h-4 w-4 mr-2" /> Messages
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate("/products")}>
-              <Store className="h-4 w-4 mr-2" /> Digital Products
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => navigate("/settings")}>
-              <Settings className="h-4 w-4 mr-2" /> Settings
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link to="/become-creator" className="cursor-pointer">
-                <Sparkles className="h-4 w-4 mr-2 text-primary" />
-                <span className="font-semibold gradient-text">Become a Creator</span>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive focus:text-destructive">
-              <LogOut className="h-4 w-4 mr-2" /> Log out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <button className="bg-muted h-7 w-7 flex items-center justify-center text-muted-foreground hover:text-foreground" style={{ borderRadius: '5px' }}>
+          <Bell className="h-3.5 w-3.5" />
+        </button>
+        <Link to="/login">
+          <Button size="sm" variant="outline" className="h-7 px-3 text-[10px] gap-1.5" style={{ borderRadius: '5px' }}>
+            <LogIn className="h-3 w-3" /> Login
+          </Button>
+        </Link>
+        <Link to="/signup">
+          <Button size="sm" className="h-7 px-3 text-[10px] bg-primary text-primary-foreground" style={{ borderRadius: '5px' }}>
+            Sign Up
+          </Button>
+        </Link>
       </div>
     </header>
   );

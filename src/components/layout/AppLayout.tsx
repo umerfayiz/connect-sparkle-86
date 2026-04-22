@@ -5,19 +5,24 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 const AppLayout = () => {
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        <AppSidebar />
-        <div className="flex-1 flex flex-col min-w-0">
-          <TopBar />
-          <main className="flex-1">
-            <div className="mx-auto w-[94%] md:w-[82%] lg:w-[72%] py-8">
-              <Outlet />
+    <div className="min-h-screen w-full bg-background">
+      {/* Centered container at 70% width */}
+      <div className="mx-auto w-full max-w-[1400px] lg:w-[70%] min-h-screen bg-background">
+        <SidebarProvider>
+          <div className="min-h-screen flex w-full">
+            <AppSidebar />
+            <div className="flex-1 flex flex-col min-w-0">
+              <TopBar />
+              <main className="flex-1">
+                <div className="px-4 md:px-6 py-6">
+                  <Outlet />
+                </div>
+              </main>
             </div>
-          </main>
-        </div>
+          </div>
+        </SidebarProvider>
       </div>
-    </SidebarProvider>
+    </div>
   );
 };
 
